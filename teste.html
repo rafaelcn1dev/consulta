@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulação de API</title>
+</head>
+
+<body>
+    <pre id="apiData"></pre>
+
+    <script>
+        // Dados da API simulada
+        const apiData = {
+            "contents": [
+                {
+                    "cadastroLiderado": "5117",
+                    "cadastroNomeLiderado": "5117 - DEIVID KENED VIEIRA CORDOVAL",
+                    "cargoLiderado": "0200085 - ANALISTA ADM. DE PESSOAL PL",
+                    "centroCustoLiderado": "11430701 - RH",
+                    "codigoEmpresaLiderado": "1",
+                    "dataAdmissao": "18/03/2022",
+                    "descricaoEmpresaLiderado": "1 - AGROPASTORIL JOTABASSO LTDA",
+                    "escalaLiderado": "118 - Escala Administração",
+                    "filialLiderado": "14 - CORPORATIVO",
+                    "localLiderado": "27.05.1 - ADM PESSOAL",
+                    "nomeLiderado": "DEIVID KENED VIEIRA CORDOVAL",
+                    "pcdEstabilidade": "",
+                    "postoTrabalhoLiderado": "2394 - 14.11430701.ANALISTA DE ADM DE PESSOAL PL",
+                    "tipoLiderado": "1"
+                },
+                {
+                    "cadastroLiderado": "5776",
+                    "cadastroNomeLiderado": "5776 - CARINE MEZZALIRA",
+                    "cargoLiderado": "0200085 - ANALISTA ADM. DE PESSOAL PL",
+                    "centroCustoLiderado": "11430701 - RH",
+                    "codigoEmpresaLiderado": "1",
+                    "dataAdmissao": "07/02/2023",
+                    "descricaoEmpresaLiderado": "1 - AGROPASTORIL JOTABASSO LTDA",
+                    "escalaLiderado": "118 - Escala Administração",
+                    "filialLiderado": "14 - CORPORATIVO",
+                    "localLiderado": "27.05.1 - ADM PESSOAL",
+                    "nomeLiderado": "CARINE MEZZALIRA",
+                    "pcdEstabilidade": "",
+                    "postoTrabalhoLiderado": "2394 - 14.11430701.ANALISTA DE ADM DE PESSOAL PL",
+                    "tipoLiderado": "1"
+                },
+                {
+                    "cadastroLiderado": "6058",
+                    "cadastroNomeLiderado": "6058 - CRISLAINE CRISTINA SOUSA DA SILVA",
+                    "cargoLiderado": "0200085 - ANALISTA ADM. DE PESSOAL PL",
+                    "centroCustoLiderado": "11430701 - RH",
+                    "codigoEmpresaLiderado": "1",
+                    "dataAdmissao": "22/11/2023",
+                    "descricaoEmpresaLiderado": "1 - AGROPASTORIL JOTABASSO LTDA",
+                    "escalaLiderado": "118 - Escala Administração",
+                    "filialLiderado": "14 - CORPORATIVO",
+                    "localLiderado": "27.05.1 - ADM PESSOAL",
+                    "nomeLiderado": "CRISLAINE CRISTINA SOUSA DA SILVA",
+                    "pcdEstabilidade": "",
+                    "postoTrabalhoLiderado": "2394 - 14.11430701.ANALISTA DE ADM DE PESSOAL PL",
+                    "tipoLiderado": "1"
+                }
+            ],
+            "responseCode": 200
+        };
+
+        // Exibir os dados no HTML
+        document.getElementById('apiData').textContent = JSON.stringify(apiData, null, 2);
+    </script>
+</body>
+
+</html>
