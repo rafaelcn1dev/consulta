@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const port = 3001;
 
+app.use(express.json()); // Middleware para processar JSON no corpo da requisição
+
 app.get('/servicos', (req, res) => {
   const { codmp, codser, desser, codfam, desfam, $top = 10, $skip = 0 } = req.query;
   
@@ -120,10 +122,8 @@ app.get('/data', (req, res) => {
   );
 });
 
-app.get('/users', (req, res) => {
-  res.json(
-      [
-          {
+let users = [
+    {
         "name": "João da Silva",
         "contacts": [
             {
@@ -151,8 +151,43 @@ app.get('/users', (req, res) => {
         ],
         "id": "2"
     }
-      ]
-  );
+];
+
+app.get('/users', (req, res) => {
+    res.json(users);
+});
+
+app.post('/users', (req, res) => {
+    const newUser = req.body;
+
+    // Verifica se o contato já existe com qualquer campo igual
+    const contactExists = users.some(user => 
+        user.contacts.some(contact => 
+            contact.email === newUser.contacts[0].email || 
+            contact.phone === newUser.contacts[0].phone || 
+            user.name === newUser.name
+        )
+    );
+
+    if (contactExists) {
+        console.log(`Tentativa de inserção de contato já existente: 
+        Nome: ${newUser.name}, 
+        Email: ${newUser.contacts[0].email}, 
+        Telefone: ${newUser.contacts[0].phone}`);
+        return res.status(400).json({ error: 'Contato já existe' });
+    }
+
+    newUser.id = Math.random().toString(36).substr(2, 9); // Gera um ID aleatório
+    users.push(newUser);
+
+    // Log do novo contato inserido
+    console.log(`Novo contato inserido: 
+    Nome: ${newUser.name}, 
+    Email: ${newUser.contacts[0].email}, 
+    Telefone: ${newUser.contacts[0].phone}, 
+    ID: ${newUser.id}`);
+
+    res.status(201).json(newUser);
 });
 
 app.listen(port, () => {
