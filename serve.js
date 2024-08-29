@@ -120,6 +120,41 @@ app.get('/data', (req, res) => {
   );
 });
 
+app.get('/users', (req, res) => {
+  res.json(
+      [
+          {
+        "name": "João da Silva",
+        "contacts": [
+            {
+                "email": "joao@gmail.com",
+                "phone": "81999887766"
+            }
+        ],
+        "id": "1"
+    },
+    {
+        "name": "Fulado de Tal",
+        "contacts": [
+            {
+                "email": "fulano@gmail.com",
+                "phone": "81988776655"
+            },
+            {
+                "email": "fulano.tal@empresarial.com.br",
+                "phone": "81992939495"
+            },
+            {
+                "email": "tal@outlook.com",
+                "phone": "8130302020"
+            }
+        ],
+        "id": "2"
+    }
+      ]
+  );
+});
+
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
