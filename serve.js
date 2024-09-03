@@ -4,6 +4,25 @@ const port = 3001;
 
 app.use(express.json()); // Middleware para processar JSON no corpo da requisição
 
+const routes = [
+  '/servicos',
+  '/servicos_sem_paginacao',
+  '/data',
+  '/users',
+  '/bpm-hem-diarias-busca-conselheiros',
+  '/bpm-hem-diarias-busca-calculos',
+  '/bpm-hem-diarias-tipos-conselheiros'
+];
+
+app.get('/', (req, res) => {
+  let html = '<h1>API Routes</h1><ul>';
+  routes.forEach(route => {
+    html += `<li><a href="${route}">${route}</a></li>`;
+  });
+  html += '</ul>';
+  res.send(html);
+});
+
 app.get('/servicos', (req, res) => {
   const { codmp, codser, desser, codfam, desfam, $top = 10, $skip = 0 } = req.query;
   
