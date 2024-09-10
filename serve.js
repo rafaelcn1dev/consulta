@@ -11,7 +11,8 @@ const routes = [
   '/users',
   '/bpm-hem-diarias-busca-conselheiros',
   '/bpm-hem-diarias-busca-calculos',
-  '/bpm-hem-diarias-tipos-conselheiros'
+  '/bpm-hem-diarias-tipos-conselheiros',
+  '/saveJson'
 ];
 
 app.get('/', (req, res) => {
@@ -363,6 +364,28 @@ app.get('/bpm-hem-diarias-tipos-conselheiros', (req, res) => {
     itemsPerPage: top,
     data: paginatedTiposConselheiros
   });
+});
+
+// Array para armazenar os dados JSON
+let jsonData = [];
+
+// Endpoint POST para salvar JSON no array
+app.post('/saveJson', (req, res) => {
+  const data = req.body;
+
+  // Verifica se o corpo da requisição contém dados
+  if (!data || Object.keys(data).length === 0) {
+    return res.status(400).json({ message: 'JSON inválido ou vazio' });
+  }
+
+  // Adiciona o JSON ao array
+  jsonData.push(data);
+  res.status(201).json({ message: 'JSON salvo com sucesso', data });
+});
+
+// Endpoint GET para obter todos os JSONs salvos
+app.get('/saveJson', (req, res) => {
+  res.json(jsonData);
 });
 
 app.listen(port, () => {
