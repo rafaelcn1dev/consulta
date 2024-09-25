@@ -13,7 +13,8 @@ const routes = [
   '/bpm-hem-diarias-busca-calculos',
   '/bpm-hem-diarias-tipos-conselheiros',
   '/saveJson',
-  '/returnUser'
+  '/returnUser',
+  '/buscar-filias'
 ];
 
 app.get('/', (req, res) => {
@@ -401,6 +402,52 @@ app.get('/returnUser', (req, res) => {
   };
 
   res.json(testData);
+});
+
+// Função auxiliar para gerar uma data aleatória
+function getRandomDate(start, end) {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
+// Endpoint GET para retornar uma lista de 5 objetos com valores aleatórios
+app.get('/buscar-filias', (req, res) => {
+  const { $top = 5, $skip = 0, codFil, cidFil, filMar, datFec1 } = req.query;
+  const top = parseInt($top, 10);
+  const skip = parseInt($skip, 10);
+  const filias = [];
+
+  for (let i = 0; i < 100; i++) { // Gerando 100 objetos para simular uma base de dados maior
+    filias.push({
+      codFil: Math.floor(Math.random() * 100000),
+      cidFil: `City${Math.floor(Math.random() * 100)}`,
+      filMar: `Market${Math.floor(Math.random() * 100)}`,
+      datFec1: getRandomDate(new Date(2000, 0, 1), new Date()).toISOString().split('T')[0]
+    });
+  }
+
+  // Aplicando filtros
+  let filteredFilias = filias;
+  if (codFil) {
+    filteredFilias = filteredFilias.filter(filia => filia.codFil.toString().includes(codFil));
+  }
+  if (cidFil) {
+    filteredFilias = filteredFilias.filter(filia => filia.cidFil.includes(cidFil));
+  }
+  if (filMar) {
+    filteredFilias = filteredFilias.filter(filia => filia.filMar.includes(filMar));
+  }
+  if (datFec1) {
+    filteredFilias = filteredFilias.filter(filia => filia.datFec1.includes(datFec1));
+  }
+
+  const paginatedFilias = filteredFilias.slice(skip, skip + top);
+  res.json({
+    totalItems: filteredFilias.length,
+    totalPages: Math.ceil(filteredFilias.length / top),
+    currentPage: Math.floor(skip / top) + 1,
+    itemsPerPage: top,
+    data: paginatedFilias
+  });
 });
 
 app.listen(port, () => {
