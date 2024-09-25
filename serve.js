@@ -12,7 +12,8 @@ const routes = [
   '/bpm-hem-diarias-busca-conselheiros',
   '/bpm-hem-diarias-busca-calculos',
   '/bpm-hem-diarias-tipos-conselheiros',
-  '/saveJson'
+  '/saveJson',
+  '/returnUser'
 ];
 
 app.get('/', (req, res) => {
@@ -386,6 +387,20 @@ app.post('/saveJson', (req, res) => {
 // Endpoint GET para obter todos os JSONs salvos
 app.get('/saveJson', (req, res) => {
   res.json(jsonData);
+});
+
+
+// Endpoint GET para retornar um usuário aleatório, para usar no processo do CAS | Desligamento
+app.get('/returnUser', (req, res) => {
+  const testData = {
+    username: 'randomUser',
+    email: 'randomUser@example.com',
+    employerTradingName: 'Random Trading Co.',
+    registerNumber: Math.floor(Math.random() * 1000000),
+    employerNumemp: Math.floor(Math.random() * 1000)
+  };
+
+  res.json(testData);
 });
 
 app.listen(port, () => {
