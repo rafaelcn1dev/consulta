@@ -14,7 +14,8 @@ const routes = [
   '/bpm-hem-diarias-tipos-conselheiros',
   '/saveJson',
   '/returnUser',
-  '/buscar-filias'
+  '/buscar-filias',
+  '/fonteDadosMuitasColunas'
 ];
 
 app.get('/', (req, res) => {
@@ -447,6 +448,73 @@ app.get('/buscar-filias', (req, res) => {
     currentPage: Math.floor(skip / top) + 1,
     itemsPerPage: top,
     data: paginatedFilias
+  });
+});
+
+
+app.get('/fonteDadosMuitasColunas', (req, res) => {
+  const { $top = 10, $skip = 0 } = req.query;
+  const top = parseInt($top, 10);
+  const skip = parseInt($skip, 10);
+  const items = [];
+
+  for (let i = 1; i <= 100; i++) {
+    items.push({
+      id: i,
+      name: `Item ${i}`,
+      description: `This is the description for item ${i}`,
+      price: (Math.random() * 100).toFixed(2),
+      quantity: Math.floor(Math.random() * 100),
+      available: Math.random() > 0.5,
+      createdAt: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString(),
+      updatedAt: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString(),
+      category: `Category ${Math.floor(Math.random() * 10)}`,
+      tags: [`Tag${Math.floor(Math.random() * 10)}`, `Tag${Math.floor(Math.random() * 10) + 10}`],
+      rating: (Math.random() * 5).toFixed(1),
+      releaseDate: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString('pt-BR'),
+      manufacturer: `Manufacturer ${i}`,
+      warranty: `${Math.floor(Math.random() * 5)} years`,
+      color: `Color ${Math.floor(Math.random() * 10)}`,
+      size: `${Math.floor(Math.random() * 50)} cm`,
+      weight: `${(Math.random() * 10).toFixed(2)} kg`,
+      stock: Math.floor(Math.random() * 1000),
+      discount: `${Math.floor(Math.random() * 50)}%`,
+      sku: `SKU${i}`,
+      barcode: `BARCODE${i}`,
+      supplier: `Supplier ${Math.floor(Math.random() * 10)}`,
+      origin: `Country ${Math.floor(Math.random() * 10)}`,
+      expiryDate: new Date(Date.now() + Math.floor(Math.random() * 10000000000)).toLocaleDateString('pt-BR'),
+      batchNumber: `Batch ${Math.floor(Math.random() * 1000)}`,
+      serialNumber: `Serial ${Math.floor(Math.random() * 1000)}`,
+      model: `Model ${i}`,
+      brand: `Brand ${Math.floor(Math.random() * 10)}`,
+      material: `Material ${Math.floor(Math.random() * 10)}`,
+      voltage: `${Math.floor(Math.random() * 240)}V`,
+      power: `${Math.floor(Math.random() * 1000)}W`,
+      energyRating: `${Math.floor(Math.random() * 5)} stars`,
+      certification: `Certification ${Math.floor(Math.random() * 10)}`,
+      teste1: `Teste ${Math.floor(Math.random() * 10)}`,
+      teste2: `Teste ${Math.floor(Math.random() * 10)}`,
+      teste3: `Teste ${Math.floor(Math.random() * 10)}`,
+      teste4: `Teste ${Math.floor(Math.random() * 10)}`,
+      teste5: `Teste ${Math.floor(Math.random() * 10)}`,
+      teste6: `Teste ${Math.floor(Math.random() * 10)}`,
+      teste7: `Teste ${Math.floor(Math.random() * 10)}`,
+      teste8: `Teste ${Math.floor(Math.random() * 10)}`,
+      teste9: `Teste ${Math.floor(Math.random() * 10)}`,
+      teste10: `Teste ${Math.floor(Math.random() * 10)}`,
+      teste11: `Teste ${Math.floor(Math.random() * 10)}`
+    });
+  }
+
+  const paginatedItems = items.slice(skip, skip + top);
+
+  res.json({
+    totalItems: items.length,
+    totalPages: Math.ceil(items.length / top),
+    currentPage: Math.floor(skip / top) + 1,
+    itemsPerPage: top,
+    data: paginatedItems
   });
 });
 
