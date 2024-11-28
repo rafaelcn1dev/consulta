@@ -533,12 +533,12 @@ app.get('/colaborador', (req, res) => {
       nomeArea: `Área ${i}`,
       nomeColaborador: `Colaborador ${i}`,
       nomeGestor: `Gestor ${i}`,
-      nome_usuario: `usuario${i}`,
+      nome_usuario: i % 2 === 0 ? 'jose' : 'maria',
       unidade: `Unidade ${i}`,
       data_nascimento: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString('pt-BR'),
       salarioColaborador: `${(Math.random() * 10000).toFixed(2).replace('.', ',')}`,
       pcd: `${Math.random() > 0.5}`,
-      campoExtra1: null
+      campoExtra: null
     });
   }
 
@@ -546,6 +546,48 @@ app.get('/colaborador', (req, res) => {
     contents: [
       {
         colaborador: colaboradores
+      }
+    ],
+    responseCode: 200
+  });
+});
+
+app.post('/colaborador', (req, res) => {
+  const { nome_usuario } = req.body;
+  console.log('Nome de usuário recebido:', nome_usuario); // Log para verificar o valor recebido
+  const colaboradores = [];
+
+  for (let i = 1; i <= 10; i++) {
+    const nomeUsuario = i % 2 === 0 ? 'jose' : 'maria';
+    colaboradores.push({
+      cadastro: `${i}`,
+      cadastro_novo: `${i}`,
+      cargo: `Cargo ${i}`,
+      empresa: `${Math.floor(Math.random() * 10) + 1}`,
+      modalidade: `Modalidade ${i}`,
+      nomeArea: `Área ${i}`,
+      nomeColaborador: `Colaborador ${i}`,
+      nomeGestor: `Gestor ${i}`,
+      nome_usuario: nomeUsuario,
+      unidade: `Unidade ${i}`,
+      data_nascimento: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString('pt-BR'),
+      salarioColaborador: `${(Math.random() * 10000).toFixed(2).replace('.', ',')}`,
+      pcd: `${Math.random() > 0.5}`,
+      campoExtra: null
+    });
+  }
+
+  // Filtrando os colaboradores com base no nome_usuario
+  let filteredColaboradores = colaboradores;
+  if (nome_usuario) {
+    filteredColaboradores = filteredColaboradores.filter(colaborador => colaborador.nome_usuario === nome_usuario);
+  }
+
+  console.log('Colaboradores filtrados:', filteredColaboradores); // Log para verificar os colaboradores filtrados
+  res.json({
+    contents: [
+      {
+        colaborador: filteredColaboradores
       }
     ],
     responseCode: 200
