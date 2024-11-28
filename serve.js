@@ -15,7 +15,8 @@ const routes = [
   '/saveJson',
   '/returnUser',
   '/buscar-filias',
-  '/fonteDadosMuitasColunas'
+  '/fonteDadosMuitasColunas',
+  '/colaborador'
 ];
 
 app.get('/', (req, res) => {
@@ -515,6 +516,39 @@ app.get('/fonteDadosMuitasColunas', (req, res) => {
     currentPage: Math.floor(skip / top) + 1,
     itemsPerPage: top,
     data: paginatedItems
+  });
+});
+
+
+app.get('/colaborador', (req, res) => {
+  const colaboradores = [];
+
+  for (let i = 1; i <= 10; i++) {
+    colaboradores.push({
+      cadastro: `${i}`,
+      cadastro_novo: `${i}`,
+      cargo: `Cargo ${i}`,
+      empresa: `${Math.floor(Math.random() * 10) + 1}`,
+      modalidade: `Modalidade ${i}`,
+      nomeArea: `Área ${i}`,
+      nomeColaborador: `Colaborador ${i}`,
+      nomeGestor: `Gestor ${i}`,
+      nome_usuario: `usuario${i}`,
+      unidade: `Unidade ${i}`,
+      data_nascimento: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString('pt-BR'),
+      salarioColaborador: `${(Math.random() * 10000).toFixed(2).replace('.', ',')}`,
+      pcd: `${Math.random() > 0.5}`,
+      campoExtra1: null
+    });
+  }
+
+  res.json({
+    contents: [
+      {
+        colaborador: colaboradores
+      }
+    ],
+    responseCode: 200
   });
 });
 
