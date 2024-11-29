@@ -1,4 +1,7 @@
 const express = require('express');
+const { Builder } = require('xml2js');
+const soap = require('soap');
+const fs = require('fs');
 const app = express();
 const port = 3001;
 
@@ -16,7 +19,9 @@ const routes = [
   '/returnUser',
   '/buscar-filias',
   '/fonteDadosMuitasColunas',
-  '/colaborador'
+  '/colaborador',
+  '/colaboradorXml',
+  '/colaboradorXml/g5-senior-services/_Sync'
 ];
 
 app.get('/', (req, res) => {
@@ -594,6 +599,101 @@ app.post('/colaborador', (req, res) => {
   });
 });
 
+app.post('/colaboradorXml', (req, res) => {
+  const { nome_usuario } = req.body;
+  console.log('Nome de usuário recebido:', nome_usuario); // Log para verificar o valor recebido
+  const colaboradores = [];
+
+  for (let i = 1; i <= 10; i++) {
+    const nomeUsuario = i % 2 === 0 ? 'jose' : 'maria';
+    colaboradores.push({
+      cadastro: `${i}`,
+      cadastro_novo: `${i}`,
+      cargo: `Cargo ${i}`,
+      empresa: `${Math.floor(Math.random() * 10) + 1}`,
+      modalidade: `Modalidade ${i}`,
+      nomeArea: `Área ${i}`,
+      nomeColaborador: `Colaborador ${i}`,
+      nomeGestor: `Gestor ${i}`,
+      nome_usuario: nomeUsuario,
+      unidade: `Unidade ${i}`,
+      data_nascimento: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString('pt-BR'),
+      salarioColaborador: `${(Math.random() * 10000).toFixed(2).replace('.', ',')}`,
+      pcd: `${Math.random() > 0.5}`,
+      campoExtra: null
+    });
+  }
+
+  // Filtrando os colaboradores com base no nome_usuario
+  let filteredColaboradores = colaboradores;
+  if (nome_usuario) {
+    filteredColaboradores = filteredColaboradores.filter(colaborador => colaborador.nome_usuario === nome_usuario);
+  }
+
+  // Convertendo o resultado para XML
+  const builder = new Builder();
+  const xml = builder.buildObject({
+    contents: [
+      {
+        colaborador: filteredColaboradores
+      }
+    ],
+    responseCode: 200
+  });
+
+  res.set('Content-Type', 'application/xml');
+  res.send(xml);
+});
+
+// Definindo o serviço SOAP
+const myService = {
+  ColaboradorService: {
+    ColaboradorPort: {
+      getColaboradores: function (args, callback) {
+        const colaboradores = [];
+        for (let i = 1; i <= 10; i++) {
+          const nomeUsuario = i % 2 === 0 ? 'José' : 'Maria';
+          colaboradores.push({
+            cadastro: `${i}`,
+            cadastro_novo: `${i}`,
+            cargo: `Cargo ${i}`,
+            empresa: `${Math.floor(Math.random() * 10) + 1}`,
+            modalidade: `Modalidade ${i}`,
+            nomeArea: `Área ${i}`,
+            nomeColaborador: `Colaborador ${i}`,
+            nomeGestor: `Gestor ${i}`,
+            nome_usuario: nomeUsuario,
+            unidade: `Unidade ${i}`,
+            data_nascimento: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString('pt-BR'),
+            salarioColaborador: `${(Math.random() * 10000).toFixed(2).replace('.', ',')}`,
+            pcd: `${Math.random() > 0.5}`,
+            campoExtra: null
+          });
+        }
+
+        // Filtrando os colaboradores com base no nome_usuario
+        let filteredColaboradores = colaboradores;
+        if (args.nome_usuario) {
+          filteredColaboradores = filteredColaboradores.filter(colaborador => colaborador.nome_usuario.toLowerCase() === args.nome_usuario.toLowerCase());
+        }
+
+        callback({
+          colaborador: filteredColaboradores
+        });
+      }
+    }
+  }
+};
+
+// Carregando o WSDL
+const xml = fs.readFileSync('colaborador.wsdl', 'utf8');
+
+// Criando o servidor SOAP
+soap.listen(app, '/colaboradorXml/g5-senior-services/_Sync', myService, xml);
+
+
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
+
+

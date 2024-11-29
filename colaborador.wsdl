@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="ColaboradorService"
+             targetNamespace="http://www.example.org/colaborador"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://www.example.org/colaborador"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <message name="getColaboradoresRequest">
+    <part name="nome_usuario" type="xsd:string"/>
+  </message>
+
+  <message name="getColaboradoresResponse">
+    <part name="colaborador" type="xsd:string"/>
+  </message>
+
+  <portType name="ColaboradorPortType">
+    <operation name="getColaboradores">
+      <input message="tns:getColaboradoresRequest"/>
+      <output message="tns:getColaboradoresResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="ColaboradorBinding" type="tns:ColaboradorPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getColaboradores">
+      <soap:operation soapAction="getColaboradores"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="ColaboradorService">
+    <documentation>Colaborador Service</documentation>
+    <port name="ColaboradorPort" binding="tns:ColaboradorBinding">
+      <soap:address location="http://localhost:3001/colaboradorXml/g5-senior-services/_Sync"/>
+    </port>
+  </service>
+</definitions>
