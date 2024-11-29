@@ -21,7 +21,7 @@ const routes = [
   '/fonteDadosMuitasColunas',
   '/colaborador',
   '/colaboradorXml',
-  '/colaboradorXml/g5-senior-services/_Sync'
+  '/colaboradorXml/g5-senior-services/_Sync?wsdl'
 ];
 
 app.get('/', (req, res) => {
