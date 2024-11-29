@@ -37,7 +37,7 @@
   <service name="ColaboradorService">
     <documentation>Colaborador Service</documentation>
     <port name="ColaboradorPort" binding="tns:ColaboradorBinding">
-      <soap:address location="http://localhost:3001/colaboradorXml/g5-senior-services/_Sync"/>
+      <soap:address location="http://consulta-gbei.onrender.com/colaboradorXml/g5-senior-services/_Sync"/>
     </port>
   </service>
 </definitions>
