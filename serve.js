@@ -21,7 +21,8 @@ const routes = [
   '/fonteDadosMuitasColunas',
   '/colaborador',
   '/colaboradorXml',
-  '/colaboradorXml/g5-senior-services/_Sync?wsdl'
+  '/colaboradorXml/g5-senior-services/_Sync?wsdl',
+  '/params'
 ];
 
 app.get('/', (req, res) => {
@@ -31,6 +32,27 @@ app.get('/', (req, res) => {
   });
   html += '</ul>';
   res.send(html);
+});
+
+app.get('/params', (req, res) => {
+  res.json({
+    message: 'Parâmetros de consulta',
+    params: req.query
+  }); // Retorna os parâmetros de consulta como JSON
+});
+
+app.post('/params', (req, res) => {
+  console.log('Corpo da requisição:', req.body); // Log para verificar o corpo da requisição
+  res.json(req.body); // Retorna o corpo da requisição como JSON
+});
+
+app.post('/without-input', (req, res) => {
+  res.json({
+    message: 'Sem Parâmetros de entrada',
+    lista: [{
+      campo: 'valor',
+    }]
+  });
 });
 
 app.get('/servicos', (req, res) => {
