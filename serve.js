@@ -56,8 +56,8 @@ app.post('/without-input', (req, res) => {
 });
 
 app.get('/servicos', (req, res) => {
-  const { codmp, codser, desser, codfam, desfam, $top = 10, $skip = 0 } = req.query;
-  
+  const { codmp, codser, desser, codfam, desfam, $top = 10, $skip = 0, offset = 0, size = 10 } = req.query;
+
   // Logando os parâmetros de consulta e a URL no console
   console.log('Parâmetros de consulta:', req.query);
   console.log('URL utilizada:', req.originalUrl);
@@ -101,16 +101,21 @@ app.get('/servicos', (req, res) => {
     filteredServicos = filteredServicos.filter(servico => desfamArray.includes(servico.desfam));
   }
 
-  // Implementando a paginação usando $top e $skip
-  const top = parseInt($top);
-  const skip = parseInt($skip);
-  const paginatedServicos = filteredServicos.slice(skip, skip + top);
+  // Implementando a paginação usando offset, size, $top e $skip
+  const offsetInt = offset ? parseInt(offset) : ($skip ? parseInt($skip) : 0);
+  const sizeInt = size ? parseInt(size) : ($top ? parseInt($top) : 10);
+  const topInt = $top ? parseInt($top) : sizeInt;
+
+  const paginatedServicos = filteredServicos.slice(offsetInt, offsetInt + sizeInt);
 
   res.json({
     totalItems: filteredServicos.length,
-    totalPages: Math.ceil(filteredServicos.length / top),
-    currentPage: Math.floor(skip / top) + 1,
-    itemsPerPage: top,
+    totalPages: Math.ceil(filteredServicos.length / sizeInt),
+    currentPage: Math.floor(offsetInt / sizeInt) + 1,
+    itemsPerPage: sizeInt,
+    offset: offsetInt,
+    size: sizeInt,
+    top: topInt,
     data: paginatedServicos
   });
 });
