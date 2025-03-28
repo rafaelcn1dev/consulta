@@ -851,7 +851,7 @@ app.get('/bpm-hcm-get-colaborador-ext-service', (req, res) => {
       NumCad: 12345,
       usu_useroffice: "user.office",
       DatNas: "1985-06-20",
-      ges_numcpf: "123",
+      ges_numcpf: "05196131477",
       Usu_CentralDes: "Central de Desenvolvimento",
       NomFun: "Analista de Sistemas",
       NomEmp: "Empresa Fictícia",
