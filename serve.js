@@ -22,8 +22,72 @@ const routes = [
   '/colaborador',
   '/colaboradorXml',
   '/colaboradorXml/g5-senior-services/_Sync?wsdl',
-  '/params'
+  '/params',
+  '/servicos-offset',
+  '/data',
+  '/lista',
+  '/bpm-hcm-get-colaborador-ext-service'
 ];
+
+// Lista para armazenar os dados recebidos via POST
+let dataList = [];
+
+// Função para validar e formatar datas
+const parseDate = (dateString) => {
+  const formats = [
+    /^\d{2}\/\d{2}\/\d{4}$/, // dd/mm/yyyy
+    /^\d{2}-\d{2}-\d{4}$/, // dd-mm-yyyy
+    /^\d{4}\/\d{2}\/\d{2}$/, // yyyy/mm/dd
+    /^\d{4}-\d{2}-\d{2}$/ // yyyy-mm-dd
+  ];
+
+  for (const format of formats) {
+    if (format.test(dateString)) {
+      return new Date(dateString.replace(/-/g, '/'));
+    }
+  }
+
+  throw new Error('Invalid date format');
+};
+
+// Endpoint POST para receber e armazenar os dados
+app.post('/data', (req, res) => {
+  const { data_um, data_dois, data_tres, texto_um } = req.body;
+
+  try {
+    /*
+    // Caso queira que seja convertido para data
+    const parsedDataUm = parseDate(data_um);
+    const parsedDataDois = parseDate(data_dois);
+    const parsedDataTres = parseDate(data_tres);
+
+    const newData = {
+      data_um: parsedDataUm,
+      data_dois: parsedDataDois,
+      data_tres: parsedDataTres,
+      texto_um
+    };*/
+    const newData = {
+      data_um: data_um,
+      data_dois: data_dois,
+      data_tres: data_tres,
+      texto_um
+    };
+
+    dataList.push(newData);
+    
+    console.log('Data added:', newData);
+
+    res.status(201).json({ message: 'Data added successfully', data: newData });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Endpoint GET para retornar os dados armazenados
+app.get('/data', (req, res) => {
+  res.json(dataList);
+});
 
 app.get('/', (req, res) => {
   let html = '<h1>API Routes</h1><ul>';
@@ -117,6 +181,40 @@ app.get('/servicos', (req, res) => {
     size: sizeInt,
     top: topInt,
     data: paginatedServicos
+  });
+});
+
+// Simulando um banco de dados de linhas (dados fictícios)
+const data = Array.from({ length: 100 }, (_, index) => ({
+  linha: `Linha ${index + 1}`,
+  campo: `Campo ${index + 1}`,  // Adicionando o atributo 'campo'
+}));
+
+app.get('/data', (req, res) => {
+  const offset = parseInt(req.query.offset) || 0;  // Valor default 0
+  const size = parseInt(req.query.size) || 20;    // Valor default 30
+  console.log('offset', req.query.offset);
+  console.log('size', req.query.size);
+
+  // Verificando se o tamanho solicitado não é maior que 30
+  const validSize = Math.min(size, 30);
+
+  // Validando o offset
+  if (offset < 0) {
+    return res.status(400).json({ error: 'Offset não pode ser negativo' });
+  }
+
+  // Calculando o slice da lista com base no offset e no size
+  const startIndex = offset;
+  const endIndex = startIndex + validSize;
+
+  // Retornando as linhas solicitadas
+  const result = data.slice(startIndex, endIndex);
+
+  res.json({
+    offset,
+    size: validSize,
+    data: result,
   });
 });
 
@@ -718,6 +816,93 @@ const xml = fs.readFileSync('colaborador.wsdl', 'utf8');
 // Criando o servidor SOAP
 soap.listen(app, '/colaboradorXml/g5-senior-services/_Sync', myService, xml);
 
+// Lista para armazenar os dados recebidos via POST
+//let dataList = [];
+
+// Endpoint POST para receber e armazenar os dados
+app.post('/lista', (req, res) => {
+  const data = req.body;
+
+  // Adicionando os novos dados à lista principal
+  dataList.push(data);
+
+  res.status(201).json({ message: 'Dados adicionados com sucesso!', data });
+});
+
+// Endpoint GET para retornar os dados armazenados
+app.get('/lista', (req, res) => {
+  res.json(dataList);
+});
+
+// Endpoint GET para bpm-hcm-get-colaborador-ext-service
+app.get('/bpm-hcm-get-colaborador-ext-service', (req, res) => {
+  const { numcpf } = req.query;
+
+  // Lista de retorno fake
+  const fakeData = [
+    {
+      NomFil: "Filial Central",
+      DatAdm: "2020-01-15",
+      CodCcu: "CCU001",
+      NomCcu: "Centro de Custo 1",
+      ges_nomfun: "Gestor de Projetos",
+      CodCar: "CAR001",
+      TitCar: "Gerente de TI",
+      NumCad: 12345,
+      usu_useroffice: "user.office",
+      DatNas: "1985-06-20",
+      ges_numcpf: "123",
+      Usu_CentralDes: "Central de Desenvolvimento",
+      NomFun: "Analista de Sistemas",
+      NomEmp: "Empresa Fictícia",
+      NumEmp: "001",
+      CodFil: "FIL001",
+      USU_EmpSau: "Plano Saúde Fictício",
+      EmaCom: "email@empresa.com",
+      CodEmp: "EMP001",
+      NumCpf: "123",
+      is_gestor: true
+    },
+    {
+      NomFil: "Filial Norte",
+      DatAdm: "2019-03-10",
+      CodCcu: "CCU002",
+      NomCcu: "Centro de Custo 2",
+      ges_nomfun: "Analista de Projetos",
+      CodCar: "CAR002",
+      TitCar: "Analista de TI",
+      NumCad: 67890,
+      usu_useroffice: "user.north",
+      DatNas: "1990-08-15",
+      ges_numcpf: "456",
+      Usu_CentralDes: "Central de Suporte",
+      NomFun: "Desenvolvedor",
+      NomEmp: "Empresa Fictícia 2",
+      NumEmp: "002",
+      CodFil: "FIL002",
+      USU_EmpSau: "Plano Saúde Premium",
+      EmaCom: "email2@empresa.com",
+      CodEmp: "EMP002",
+      NumCpf: "456",
+      is_gestor: false
+    }
+  ];
+
+  // Se o parâmetro numcpf for fornecido, filtra os dados
+  if (numcpf) {
+    const result = fakeData.filter(item => item.NumCpf === numcpf);
+
+    // Retorna os dados filtrados ou um erro 404 se não encontrar
+    if (result.length > 0) {
+      return res.json(result);
+    } else {
+      return res.status(404).json({ error: "Nenhum colaborador encontrado para o CPF informado." });
+    }
+  }
+
+  // Se o parâmetro numcpf não for fornecido, retorna todos os dados
+  res.json(fakeData);
+});
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
