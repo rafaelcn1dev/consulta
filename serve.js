@@ -26,7 +26,8 @@ const routes = [
   '/servicos-offset',
   '/data',
   '/lista',
-  '/bpm-hcm-get-colaborador-ext-service'
+  '/bpm-hcm-get-colaborador-ext-service',
+  '/usuarios'
 ];
 
 // Lista para armazenar os dados recebidos via POST
@@ -902,6 +903,85 @@ app.get('/bpm-hcm-get-colaborador-ext-service', (req, res) => {
 
   // Se o parâmetro numcpf não for fornecido, retorna todos os dados
   res.json(fakeData);
+});
+
+// Lista para armazenar os usuários
+let usuarios = [
+  {
+    cpf: "12345678901",
+    nome: "João",
+    sobrenome: "Silva",
+    altura: "1.75",
+    aniversario: "1990-01-15"
+  },
+  {
+    cpf: "98765432100",
+    nome: "Maria",
+    sobrenome: "Oliveira",
+    altura: "1.68",
+    aniversario: "1985-06-20"
+  },
+  {
+    cpf: "45678912345",
+    nome: "Carlos",
+    sobrenome: "Santos",
+    altura: "1.80",
+    aniversario: "1992-03-10"
+  },
+  {
+    cpf: "78912345678",
+    nome: "Ana",
+    sobrenome: "Costa",
+    altura: "1.60",
+    aniversario: "1995-08-25"
+  },
+  {
+    cpf: "32165498700",
+    nome: "Paulo",
+    sobrenome: "Souza",
+    altura: "1.85",
+    aniversario: "1988-12-05"
+  }
+];
+
+// Endpoint GET para retornar todos os usuários ou filtrar pelo CPF
+app.get('/usuarios', (req, res) => {
+  const { cpf } = req.query;
+
+  // Se o CPF for fornecido, filtra os usuários
+  if (cpf) {
+    const usuario = usuarios.find(user => user.cpf === cpf);
+    if (usuario) {
+      return res.json(usuario);
+    } else {
+      return res.status(404).json({ error: "Usuário não encontrado para o CPF informado." });
+    }
+  }
+
+  // Se nenhum CPF for fornecido, retorna todos os usuários
+  res.json(usuarios);
+});
+
+// Endpoint POST para adicionar um novo usuário ou buscar pelo CPF
+app.post('/usuarios', (req, res) => {
+  const { cpf, nome, sobrenome, altura, aniversario } = req.body;
+
+  // Validação dos campos obrigatórios
+  if (!cpf || !nome || !sobrenome || !altura || !aniversario) {
+    return res.status(400).json({ error: "Todos os campos (cpf, nome, sobrenome, altura, aniversario) são obrigatórios." });
+  }
+
+  // Verifica se o CPF já existe na lista
+  const usuarioExistente = usuarios.find(user => user.cpf === cpf);
+  if (usuarioExistente) {
+    return res.status(400).json({ error: "Usuário com este CPF já existe." });
+  }
+
+  // Adiciona o novo usuário à lista
+  const novoUsuario = { cpf, nome, sobrenome, altura, aniversario };
+  usuarios.push(novoUsuario);
+
+  res.status(201).json({ message: "Usuário adicionado com sucesso!", usuario: novoUsuario });
 });
 
 app.listen(port, () => {
