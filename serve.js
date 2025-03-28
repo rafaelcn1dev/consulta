@@ -860,7 +860,7 @@ app.get('/bpm-hcm-get-colaborador-ext-service', (req, res) => {
       USU_EmpSau: "Plano Saúde Fictício",
       EmaCom: "email@empresa.com",
       CodEmp: "EMP001",
-      NumCpf: "123",
+      NumCpf: "05196131477",
       is_gestor: true
     },
     {
