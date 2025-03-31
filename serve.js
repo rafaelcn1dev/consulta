@@ -987,9 +987,13 @@ app.post('/usuarios', (req, res) => {
 
 const axios = require('axios'); // Certifique-se de instalar o axios: npm install axios
 
-// Endpoint GET para consultar o CEP
-app.get('/cep/:cep', async (req, res) => {
-  const { cep } = req.params;
+// Endpoint GET para consultar o CEP usando query string
+app.get('/cep', async (req, res) => {
+  const { cep } = req.query; // Obtém o parâmetro 'cep' da query string
+
+  if (!cep) {
+    return res.status(400).json({ error: "O parâmetro 'cep' é obrigatório." });
+  }
 
   try {
     // Fazendo a requisição para a API do ViaCEP
