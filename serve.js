@@ -3,7 +3,7 @@ const { Builder } = require('xml2js');
 const soap = require('soap');
 const fs = require('fs');
 const app = express();
-const port = 3001;
+const port = 3000;
 
 app.use(express.json()); // Middleware para processar JSON no corpo da requisição
 
@@ -27,7 +27,8 @@ const routes = [
   '/data',
   '/lista',
   '/bpm-hcm-get-colaborador-ext-service',
-  '/usuarios'
+  '/usuarios',
+  '/cep/:cep'
 ];
 
 // Lista para armazenar os dados recebidos via POST
@@ -982,6 +983,45 @@ app.post('/usuarios', (req, res) => {
   usuarios.push(novoUsuario);
 
   res.status(201).json({ message: "Usuário adicionado com sucesso!", usuario: novoUsuario });
+});
+
+const axios = require('axios'); // Certifique-se de instalar o axios: npm install axios
+
+// Endpoint GET para consultar o CEP
+app.get('/cep/:cep', async (req, res) => {
+  const { cep } = req.params;
+
+  try {
+    // Fazendo a requisição para a API do ViaCEP
+    const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+
+    // Verificando se o CEP é válido
+    if (response.data.erro) {
+      return res.status(404).json({ error: "CEP não encontrado." });
+    }
+
+    // Formatando o retorno com os campos adicionais
+    const formattedData = {
+      cep: response.data.cep,
+      logradouro: response.data.logradouro,
+      complemento: response.data.complemento || "",
+      unidade: response.data.unidade || "",
+      bairro: response.data.bairro,
+      localidade: response.data.localidade,
+      uf: response.data.uf,
+      estado: "Pernambuco", // Adicionando o estado manualmente
+      regiao: "Nordeste", // Adicionando a região manualmente
+      ibge: response.data.ibge,
+      gia: response.data.gia || "",
+      ddd: response.data.ddd,
+      siafi: response.data.siafi
+    };
+
+    res.json(formattedData);
+  } catch (error) {
+    console.error("Erro ao consultar o CEP:", error.message);
+    res.status(500).json({ error: "Erro ao consultar o CEP. Tente novamente mais tarde." });
+  }
 });
 
 app.listen(port, () => {
