@@ -28,7 +28,7 @@ const routes = [
   '/lista',
   '/bpm-hcm-get-colaborador-ext-service',
   '/usuarios',
-  '/cep/:cep'
+  '/cep'
 ];
 
 // Lista para armazenar os dados recebidos via POST
