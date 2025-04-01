@@ -3,7 +3,7 @@ const { Builder } = require('xml2js');
 const soap = require('soap');
 const fs = require('fs');
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(express.json()); // Middleware para processar JSON no corpo da requisição
 
@@ -824,7 +824,7 @@ soap.listen(app, '/colaboradorXml/g5-senior-services/_Sync', myService, xml);
 // Endpoint POST para receber e armazenar os dados
 app.post('/lista', (req, res) => {
   const data = req.body;
-
+  console.log(data);
   // Adicionando os novos dados à lista principal
   dataList.push(data);
 
