@@ -28,7 +28,8 @@ const routes = [
   '/lista',
   '/bpm-hcm-get-colaborador-ext-service',
   '/usuarios',
-  '/cep'
+  '/cep',
+  '/servicoexterno'
 ];
 
 // Lista para armazenar os dados recebidos via POST
@@ -1026,6 +1027,19 @@ app.get('/cep', async (req, res) => {
     console.error("Erro ao consultar o CEP:", error.message);
     res.status(500).json({ error: "Erro ao consultar o CEP. Tente novamente mais tarde." });
   }
+});
+
+// Endpoint GET para retornar dados do serviço externo
+app.get('/servicoexterno', (req, res) => {
+  const data = {
+    nome: "Serviço Externo",
+    quantidade: 5,
+    valor: 12.34,
+    lancamento: new Date().toISOString().split('T')[0], // Data atual no formato yyyy-mm-dd
+    habilitado: false
+  };
+
+  res.json(data);
 });
 
 app.listen(port, () => {
