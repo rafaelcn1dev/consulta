@@ -705,7 +705,7 @@ app.post('/colaborador', (req, res) => {
       unidade: `Unidade ${i}`,
       data_nascimento: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString('pt-BR'),
       salarioColaborador: Math.random() * 10000, // Agora retorna um valor decimal
-      pcd: `${Math.random() > 0.5}`,
+      pcd: Math.random() > 0.5, // Agora retorna um valor booleano
       campoExtra: null
     });
   }
