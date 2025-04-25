@@ -693,8 +693,8 @@ app.post('/colaborador', (req, res) => {
   for (let i = 1; i <= 10; i++) {
     const nomeUsuario = i % 2 === 0 ? 'jose' : 'maria';
     colaboradores.push({
-      cadastro: `${i}`,
-      cadastro_novo: `${i}`,
+      cadastro: i, // Agora retorna um valor inteiro
+      cadastro_novo: i, // Agora retorna um valor inteiro
       cargo: `Cargo ${i}`,
       empresa: `${Math.floor(Math.random() * 10) + 1}`,
       modalidade: `Modalidade ${i}`,
@@ -704,7 +704,7 @@ app.post('/colaborador', (req, res) => {
       nome_usuario: nomeUsuario,
       unidade: `Unidade ${i}`,
       data_nascimento: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString('pt-BR'),
-      salarioColaborador: `${(Math.random() * 10000).toFixed(2).replace('.', ',')}`,
+      salarioColaborador: Math.random() * 10000, // Agora retorna um valor decimal
       pcd: `${Math.random() > 0.5}`,
       campoExtra: null
     });
