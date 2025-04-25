@@ -686,9 +686,9 @@ app.get('/colaborador', (req, res) => {
 });
 
 app.post('/colaborador', (req, res) => {
-  const { nome_usuario } = req.body;
-  console.log('Nome de usuário recebido:', nome_usuario); // Log para verificar o valor recebido
-  const colaboradores = [];
+  const { nome_usuario, pcd } = req.body;
+  console.log('Dados recebidos:', { nome_usuario, pcd }); // Log para verificar os valores recebidos
+ const colaboradores = [];
 
   for (let i = 1; i <= 10; i++) {
     const nomeUsuario = i % 2 === 0 ? 'jose' : 'maria';
@@ -714,6 +714,9 @@ app.post('/colaborador', (req, res) => {
   let filteredColaboradores = colaboradores;
   if (nome_usuario) {
     filteredColaboradores = filteredColaboradores.filter(colaborador => colaborador.nome_usuario === nome_usuario);
+  }
+  if (pcd !== undefined) {
+    filteredColaboradores = filteredColaboradores.filter(colaborador => colaborador.pcd === pcd);
   }
 
   console.log('Colaboradores filtrados:', filteredColaboradores); // Log para verificar os colaboradores filtrados
