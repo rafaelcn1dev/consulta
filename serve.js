@@ -914,6 +914,7 @@ app.get('/bpm-hcm-get-colaborador-ext-service', (req, res) => {
 let usuarios = [
   {
     cpf: "12345678901",
+    idade: 30,
     nome: "João",
     sobrenome: "Silva",
     altura: 1.75,
@@ -925,6 +926,7 @@ let usuarios = [
   },
   {
     cpf: "98765432100",
+    idade: 20,
     nome: "Maria",
     sobrenome: "Oliveira",
     altura: 1.68,
@@ -936,6 +938,7 @@ let usuarios = [
   },
   {
     cpf: "45678912345",
+    idade: 15,
     nome: "Carlos",
     sobrenome: "Santos",
     altura: 1.80,
@@ -947,6 +950,7 @@ let usuarios = [
   },
   {
     cpf: "78912345678",
+    idade: 40,
     nome: "Ana",
     sobrenome: "Costa",
     altura: 1.60,
@@ -958,6 +962,7 @@ let usuarios = [
   },
   {
     cpf: "32165498700",
+    idade: 70,
     nome: "Paulo",
     sobrenome: "Souza",
     altura: 1.85,
