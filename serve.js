@@ -658,19 +658,19 @@ app.get('/colaborador', (req, res) => {
 
   for (let i = 1; i <= 10; i++) {
     colaboradores.push({
-      cadastro: `${i}`,
-      cadastro_novo: `${i}`,
+      cadastro: i, // Agora retorna um valor inteiro
+      cadastro_novo: i, // Agora retorna um valor inteiro
       cargo: `Cargo ${i}`,
       empresa: `${Math.floor(Math.random() * 10) + 1}`,
       modalidade: `Modalidade ${i}`,
       nomeArea: `Área ${i}`,
       nomeColaborador: `Colaborador ${i}`,
       nomeGestor: `Gestor ${i}`,
-      nome_usuario: i % 2 === 0 ? 'jose' : 'maria',
+      nome_usuario: nomeUsuario,
       unidade: `Unidade ${i}`,
       data_nascimento: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleDateString('pt-BR'),
-      salarioColaborador: `${(Math.random() * 10000).toFixed(2).replace('.', ',')}`,
-      pcd: `${Math.random() > 0.5}`,
+      salarioColaborador: Math.random() * 10000, // Agora retorna um valor decimal
+      pcd: Math.random() > 0.5, // Agora retorna um valor booleano
       campoExtra: null
     });
   }
@@ -917,35 +917,50 @@ let usuarios = [
     nome: "João",
     sobrenome: "Silva",
     altura: "1.75",
-    aniversario: "1990-01-15"
+    aniversario: "15-01-15",
+    aniversario_iso: "2015/01/15", // Formato ISO com "/"
+    aniversario_com_traco: "2015-01-15", // Formato ISO com "-"
+    aniversario_normal: "15/01/2015" // Formato dd/MM/yyyy
   },
   {
     cpf: "98765432100",
     nome: "Maria",
     sobrenome: "Oliveira",
     altura: "1.68",
-    aniversario: "1985-06-20"
+    aniversario: "1985-06-20",
+    aniversario_iso: "1985/06/20", // Formato ISO com "/"
+    aniversario_com_traco: "1985-06-20", // Formato ISO com "-"
+    aniversario_normal: "20/06/1985" // Formato dd/MM/yyyy
   },
   {
     cpf: "45678912345",
     nome: "Carlos",
     sobrenome: "Santos",
     altura: "1.80",
-    aniversario: "1992-03-10"
+    aniversario: "1992-03-10",
+    aniversario_iso: "1992/03/10", // Formato ISO com "/"
+    aniversario_com_traco: "1992-03-10", // Formato ISO com "-"
+    aniversario_normal: "10/03/1992" // Formato dd/MM/yyyy
   },
   {
     cpf: "78912345678",
     nome: "Ana",
     sobrenome: "Costa",
     altura: "1.60",
-    aniversario: "1995-08-25"
+    aniversario: "1995-08-25",
+    aniversario_iso: "1995/08/25", // Formato ISO com "/"
+    aniversario_com_traco: "1995-08-25", // Formato ISO com "-"
+    aniversario_normal: "25/08/1995" // Formato dd/MM/yyyy
   },
   {
     cpf: "32165498700",
     nome: "Paulo",
     sobrenome: "Souza",
     altura: "1.85",
-    aniversario: "1988-12-05"
+    aniversario: "1988-12-05",
+    aniversario_iso: "1988/12/05", // Formato ISO com "/"
+    aniversario_com_traco: "1988-12-05", // Formato ISO com "-"
+    aniversario_normal: "05/12/1988" // Formato dd/MM/yyyy
   }
 ];
 
