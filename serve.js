@@ -29,7 +29,8 @@ const routes = [
   '/bpm-hcm-get-colaborador-ext-service',
   '/usuarios',
   '/cep',
-  '/servicoexterno'
+  '/servicoexterno',
+  '/fonte_dados_mockado'
 ];
 
 // Lista para armazenar os dados recebidos via POST
@@ -1068,6 +1069,104 @@ app.get('/servicoexterno', (req, res) => {
   };
 
   res.json(data);
+});
+
+//novo endpoint
+// Lista de usuários mockados
+const usuariosMockados = Array.from({ length: 10 }, (_, i) => ({
+  nome: `Usuário ${i + 1}`,
+  idade: 20 + i,
+  altura: 1.5 + i * 0.05,
+  pcd: i < 5, // Os primeiros 5 usuários são PCD
+  data_normal: "15/04/1993",
+  data_iso: "1993/04/15",
+  data_iso_com_traco: "1993-04-15",
+  escolaridade: [
+    {
+      instituicao: "Escola Primária ABC",
+      ano_termino: 2005
+    },
+    {
+      instituicao: "Colégio XYZ",
+      ano_termino: 2010
+    },
+    {
+      instituicao: "Universidade Fictícia",
+      ano_termino: 2015
+    }
+  ],
+  dependentes: [
+    {
+      nome: `Dependente ${i + 1}`,
+      idade: 5 + i,
+      pcd: i % 2 === 0,
+      data_nascimento: {
+        data_normal: "10/05/2018",
+        data_iso: "2018/05/10",
+        data_iso_com_traco: "2018-05-10"
+      },
+      altura: 1.1 + i * 0.05
+    }
+  ],
+  profissional: {
+    nome_empresa: "Empresa Fictícia Ltda",
+    salario: 5000 + i * 1000,
+    setor: i < 5 ? "Tecnologia da Informação" : "Recursos Humanos", // 5 no mesmo setor
+    cargo: i % 2 === 0 ? "Desenvolvedor Sênior" : "Analista de RH",
+    bonus: i % 2 === 0 // 5 com bônus
+  }
+}));
+
+// Endpoint GET para buscar usuários com filtros
+app.get('/fonte_dados_mockado', (req, res) => {
+  const { nome, pcd, cargo, setor, bonus } = req.query;
+
+  let filteredUsuarios = usuariosMockados;
+
+  // Aplicando filtros
+  if (nome) {
+    filteredUsuarios = filteredUsuarios.filter(user => user.nome.toLowerCase().includes(nome.toLowerCase()));
+  }
+  if (pcd !== undefined) {
+    filteredUsuarios = filteredUsuarios.filter(user => user.pcd === (pcd === 'true'));
+  }
+  if (cargo) {
+    filteredUsuarios = filteredUsuarios.filter(user => user.profissional.cargo.toLowerCase().includes(cargo.toLowerCase()));
+  }
+  if (setor) {
+    filteredUsuarios = filteredUsuarios.filter(user => user.profissional.setor.toLowerCase().includes(setor.toLowerCase()));
+  }
+  if (bonus !== undefined) {
+    filteredUsuarios = filteredUsuarios.filter(user => user.profissional.bonus === (bonus === 'true'));
+  }
+
+  res.json(filteredUsuarios);
+});
+
+// Endpoint POST para buscar usuários com filtros
+app.post('/fonte_dados_mockado', (req, res) => {
+  const { nome, pcd, cargo, setor, bonus } = req.body;
+
+  let filteredUsuarios = usuariosMockados;
+
+  // Aplicando filtros
+  if (nome) {
+    filteredUsuarios = filteredUsuarios.filter(user => user.nome.toLowerCase().includes(nome.toLowerCase()));
+  }
+  if (pcd !== undefined) {
+    filteredUsuarios = filteredUsuarios.filter(user => user.pcd === pcd);
+  }
+  if (cargo) {
+    filteredUsuarios = filteredUsuarios.filter(user => user.profissional.cargo.toLowerCase().includes(cargo.toLowerCase()));
+  }
+  if (setor) {
+    filteredUsuarios = filteredUsuarios.filter(user => user.profissional.setor.toLowerCase().includes(setor.toLowerCase()));
+  }
+  if (bonus !== undefined) {
+    filteredUsuarios = filteredUsuarios.filter(user => user.profissional.bonus === bonus);
+  }
+
+  res.json(filteredUsuarios);
 });
 
 app.listen(port, () => {
