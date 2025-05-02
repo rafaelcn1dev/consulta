@@ -938,7 +938,7 @@ let usuarios = [
     pcd: false,
   },
   {
-    cpf: "45678912345",
+    cpf: "4567891234567891011",
     idade: 15,
     nome: "Carlos",
     sobrenome: "Santos",
@@ -950,7 +950,7 @@ let usuarios = [
     pcd: true, // Formato dd/MM/yyyy
   },
   {
-    cpf: "78912345678",
+    cpf: "7891234567891011",
     idade: 40,
     nome: "Ana",
     sobrenome: "Costa",
