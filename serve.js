@@ -977,11 +977,25 @@ let usuarios = [
 
 // Endpoint GET para retornar todos os usuários ou filtrar pelo CPF
 app.get('/usuarios', (req, res) => {
-  const { cpf } = req.query;
+
+  const { cpf } = req.query; // Obtém o parâmetro 'cpf' diretamente
+  const queryKeys = Object.keys(req.query); // Obtém todas as chaves da query string
+
+  // Procura por uma chave que comece com 'cpf -eq'
+  const cpfEqKey = queryKeys.find(key => key.startsWith('cpf -eq'));
+  let cpfEq = cpfEqKey ? cpfEqKey.replace('cpf -eq ', '').trim() : null;
+
+  // Remove aspas simples, se existirem
+  if (cpfEq) {
+    cpfEq = cpfEq.replace(/'/g, ''); // Remove todas as aspas simples
+  }
+
+  // Determina o CPF a ser usado no filtro (prioriza 'cpf', mas aceita 'cpf -eq')
+  const cpfFiltro = cpf || cpfEq;
 
   // Se o CPF for fornecido, filtra os usuários
-  if (cpf) {
-    const usuario = usuarios.find(user => user.cpf === cpf);
+  if (cpfFiltro) {
+    const usuario = usuarios.find(user => user.cpf === cpfFiltro);
     if (usuario) {
       return res.json(usuario);
     } else {
