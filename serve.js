@@ -977,23 +977,28 @@ let usuarios = [
 
 // Endpoint GET para retornar todos os usuários ou filtrar pelo CPF
 app.get('/usuarios', (req, res) => {
-
   const { cpf } = req.query; // Obtém o parâmetro 'cpf' diretamente
   const queryKeys = Object.keys(req.query); // Obtém todas as chaves da query string
 
-  // Procura por uma chave que comece com 'cpf -eq'
+  // Procura por uma chave que comece com 'cpf -eq' ou 'cpf -ne'
   const cpfEqKey = queryKeys.find(key => key.startsWith('cpf -eq'));
+  const cpfNeKey = queryKeys.find(key => key.startsWith('cpf -ne'));
+
   let cpfEq = cpfEqKey ? cpfEqKey.replace('cpf -eq ', '').trim() : null;
+  let cpfNe = cpfNeKey ? cpfNeKey.replace('cpf -ne ', '').trim() : null;
 
   // Remove aspas simples, se existirem
   if (cpfEq) {
     cpfEq = cpfEq.replace(/'/g, ''); // Remove todas as aspas simples
   }
+  if (cpfNe) {
+    cpfNe = cpfNe.replace(/'/g, ''); // Remove todas as aspas simples
+  }
 
-  // Determina o CPF a ser usado no filtro (prioriza 'cpf', mas aceita 'cpf -eq')
+  // Determina o CPF a ser usado no filtro (prioriza 'cpf', mas aceita 'cpf -eq' ou 'cpf -ne')
   const cpfFiltro = cpf || cpfEq;
 
-  // Se o CPF for fornecido, filtra os usuários
+  // Se o CPF for fornecido com 'cpf -eq', filtra os usuários
   if (cpfFiltro) {
     const usuario = usuarios.find(user => user.cpf === cpfFiltro);
     if (usuario) {
@@ -1001,6 +1006,12 @@ app.get('/usuarios', (req, res) => {
     } else {
       return res.status(404).json({ error: "Usuário não encontrado para o CPF informado." });
     }
+  }
+
+  // Se o CPF for fornecido com 'cpf -ne', exclui os usuários com o CPF informado
+  if (cpfNe) {
+    const usuariosFiltrados = usuarios.filter(user => user.cpf !== cpfNe);
+    return res.json(usuariosFiltrados);
   }
 
   // Se nenhum CPF for fornecido, retorna todos os usuários
