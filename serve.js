@@ -977,9 +977,9 @@ let usuarios = [
 
 // Endpoint GET para retornar todos os usuários ou filtrar pelo CPF
 app.get('/usuarios', (req, res) => {
-  const { cpf } = req.query;
+  const { cpf, pcd } = req.query;
 
-  // Se o CPF for fornecido, filtra os usuários
+  // Se o CPF for fornecido, filtra os usuários pelo CPF
   if (cpf) {
     const usuario = usuarios.find(user => user.cpf === cpf);
     if (usuario) {
@@ -989,7 +989,14 @@ app.get('/usuarios', (req, res) => {
     }
   }
 
-  // Se nenhum CPF for fornecido, retorna todos os usuários
+  // Se o PCD for fornecido, filtra os usuários pelo campo PCD
+  if (pcd !== undefined) {
+    const pcdBoolean = pcd === 'true'; // Converte o valor para booleano
+    const usuariosFiltrados = usuarios.filter(user => user.pcd === pcdBoolean);
+    return res.json(usuariosFiltrados);
+  }
+
+  // Se nenhum parâmetro for fornecido, retorna todos os usuários
   res.json(usuarios);
 });
 
