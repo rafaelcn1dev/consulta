@@ -588,12 +588,12 @@ app.get('/buscar-filias', (req, res) => {
 
 
 app.get('/fonteDadosMuitasColunas', (req, res) => {
-  const { $top = 10, $skip = 0 } = req.query;
+  const { $top = 1000, $skip = 0 } = req.query;
   const top = parseInt($top, 10);
   const skip = parseInt($skip, 10);
   const items = [];
 
-  for (let i = 1; i <= 100; i++) {
+  for (let i = 1; i <= 50000; i++) {
     items.push({
       id: i,
       name: `Item ${i}`,
