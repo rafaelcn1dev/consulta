@@ -1001,7 +1001,7 @@ app.get('/usuarios', (req, res) => {
   // Aguarda 3 minutos (180000 ms) antes de responder
   setTimeout(() => {
     res.json(usuarios);
-  }, 150000);
+  }, 45000);
 });
 
 // Endpoint POST para adicionar um novo usuário ou buscar pelo CPF
