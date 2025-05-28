@@ -1184,6 +1184,22 @@ app.post('/fonte_dados_mockado', (req, res) => {
   res.json(filteredUsuarios);
 });
 
+app.get('/hora-atual', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+  const intervalId = setInterval(() => {
+    const horaAtual = new Date().toLocaleTimeString('pt-BR');
+    res.write(`data: ${horaAtual}\n\n`);
+  }, 10000); // 10 segundos
+
+  req.on('close', () => {
+    clearInterval(intervalId);
+    res.end();
+  });
+});
+
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
