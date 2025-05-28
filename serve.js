@@ -1147,7 +1147,11 @@ app.get('/fonte_dados_mockado', (req, res) => {
     filteredUsuarios = filteredUsuarios.filter(user => user.profissional.bonus === (bonus === 'true'));
   }
 
-  res.json(filteredUsuarios);
+  //res.json(filteredUsuarios);
+  // Aguarda 3 minutos (180000 ms) antes de responder
+  setTimeout(() => {
+    res.json(filteredUsuarios);
+  }, 200000);
 });
 
 // Endpoint POST para buscar usuários com filtros
