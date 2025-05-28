@@ -984,9 +984,6 @@ app.get('/usuarios', (req, res) => {
     const usuario = usuarios.find(user => user.cpf === cpf);
     if (usuario) {
       return res.json(usuario);
-      /*setTimeout(() => {
-        return res.json(usuario);
-      }, 100000); // 200 segundos = 3 minutos e 20 segundos*/
     } else {
       return res.status(404).json({ error: "Usuário não encontrado para o CPF informado." });
     }
@@ -1003,7 +1000,7 @@ app.get('/usuarios', (req, res) => {
   //res.json(usuarios);
   // Aguarda 3 minutos (180000 ms) antes de responder
   setTimeout(() => {
-    res.json(filteredUsuarios);
+    res.json(usuarios);
   }, 150000);
 });
 
@@ -1158,7 +1155,7 @@ app.get('/fonte_dados_mockado', (req, res) => {
   // Aguarda 3 minutos (180000 ms) antes de responder
   setTimeout(() => {
     res.json(filteredUsuarios);
-  }, 200000);
+  }, 45000);
 });
 
 // Endpoint POST para buscar usuários com filtros
