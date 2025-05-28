@@ -983,10 +983,10 @@ app.get('/usuarios', (req, res) => {
   if (cpf) {
     const usuario = usuarios.find(user => user.cpf === cpf);
     if (usuario) {
-      //return res.json(usuario);
-      setTimeout(() => {
+      return res.json(usuario);
+      /*setTimeout(() => {
         return res.json(usuario);
-      }, 100000); // 200 segundos = 3 minutos e 20 segundos
+      }, 100000); // 200 segundos = 3 minutos e 20 segundos*/
     } else {
       return res.status(404).json({ error: "Usuário não encontrado para o CPF informado." });
     }
