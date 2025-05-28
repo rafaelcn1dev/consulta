@@ -30,7 +30,8 @@ const routes = [
   '/usuarios',
   '/cep',
   '/servicoexterno',
-  '/fonte_dados_mockado'
+  '/fonte_dados_mockado',
+  '/hora-atual'
 ];
 
 // Lista para armazenar os dados recebidos via POST
