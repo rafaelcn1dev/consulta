@@ -984,11 +984,14 @@ app.get('/usuarios', (req, res) => {
   if (cpf) {
     const usuario = usuarios.find(user => user.cpf === cpf);
     if (usuario) {
-      //return res.json(usuario);
       console.log(`Usuário encontrado: ${JSON.stringify(usuario)}`);
-      setTimeout(() => {
-        res.json(usuario);
-      }, 60000);
+      if (usuario.cpf === '4567891234567891011') {
+        setTimeout(() => {
+          res.json(usuario);
+        }, 60000); // 60 segundos de delay
+      } else {
+        return res.json(usuario); // Resposta imediata para outros CPFs
+      }
     } else {
       return res.status(404).json({ error: "Usuário não encontrado para o CPF informado." });
     }
