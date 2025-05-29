@@ -984,7 +984,10 @@ app.get('/usuarios', (req, res) => {
   if (cpf) {
     const usuario = usuarios.find(user => user.cpf === cpf);
     if (usuario) {
-      return res.json(usuario);
+      //return res.json(usuario);
+      setTimeout(() => {
+        res.json(usuario);
+      }, 60000);
     } else {
       return res.status(404).json({ error: "Usuário não encontrado para o CPF informado." });
     }
