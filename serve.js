@@ -987,7 +987,7 @@ app.get('/usuarios', (req, res) => {
       console.log(`Usuário encontrado: ${JSON.stringify(usuario)}`);
       if (usuario.cpf === '4567891234567891011') {
         return setTimeout(() => {
-          res.json(usuario);
+          res.json([usuario]);
         }, 60000); // 60 segundos de delay
       } else {
         return res.json(usuario); // Resposta imediata para outros CPFs
