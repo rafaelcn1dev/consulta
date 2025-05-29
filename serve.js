@@ -985,7 +985,7 @@ app.get('/usuarios', (req, res) => {
     const usuario = usuarios.find(user => user.cpf === cpf);
     if (usuario) {
       console.log(`Usuário encontrado: ${JSON.stringify(usuario)}`);
-      if (usuario.cpf === '4567891234567891011') {
+      if (usuario.cpf === '98765432100') {
         return setTimeout(() => {
           res.json([usuario]);
         }, 60000); // 60 segundos de delay
