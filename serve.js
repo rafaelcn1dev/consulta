@@ -985,6 +985,7 @@ app.get('/usuarios', (req, res) => {
     const usuario = usuarios.find(user => user.cpf === cpf);
     if (usuario) {
       //return res.json(usuario);
+      console.log(`Usuário encontrado: ${JSON.stringify(usuario)}`);
       setTimeout(() => {
         res.json(usuario);
       }, 60000);
@@ -1002,10 +1003,9 @@ app.get('/usuarios', (req, res) => {
 
   // Se nenhum parâmetro for fornecido, retorna todos os usuários
   //res.json(usuarios);
-  // Aguarda 3 minutos (180000 ms) antes de responder
   setTimeout(() => {
     res.json(usuarios);
-  }, 90000);
+  }, 60000);
 });
 
 // Endpoint POST para adicionar um novo usuário ou buscar pelo CPF
