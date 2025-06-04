@@ -988,7 +988,7 @@ app.get('/usuarios', (req, res) => {
       if (usuario.cpf === '98765432100') {
         return setTimeout(() => {
           res.json([usuario]);
-        }, 60000); // 60 segundos de delay
+        }, 1000); // 60 segundos de delay
       } else {
         return res.json(usuario); // Resposta imediata para outros CPFs
       }
@@ -1007,7 +1007,7 @@ app.get('/usuarios', (req, res) => {
   // Se nenhum parâmetro for fornecido, retorna todos os usuários após 60 segundos
   setTimeout(() => {
     res.json(usuarios);
-  }, 60000);
+  }, 1000);
 });
 
 // Endpoint POST para adicionar um novo usuário ou buscar pelo CPF
@@ -1203,6 +1203,35 @@ app.get('/hora-atual', (req, res) => {
   req.on('close', () => {
     clearInterval(intervalId);
     res.end();
+  });
+});
+
+const path = require('path');
+
+// Endpoint GET para retornar lista de colaboradores com nomes do arquivo e valores aleatórios
+app.get('/colaboradores_valores', (req, res) => {
+  const filePath = path.join(__dirname, 'nome_de_pessoas.txt');
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Erro ao ler o arquivo:', err);
+      return res.status(500).json({ error: 'Erro ao ler o arquivo de nomes.' });
+    }
+
+    // Divide o arquivo em linhas e remove linhas vazias
+    const nomes = data.split('\n').map(nome => nome.trim()).filter(nome => nome);
+
+    // Para cada nome, adiciona 7 vezes com valores aleatórios
+    const lista = [];
+    nomes.forEach(nome => {
+      for (let i = 0; i < 10; i++) {
+        lista.push({
+          colaboradores_nome: nome,
+          colaboradores_valor: Number((Math.random() * (9999 - 100) + 100).toFixed(2))
+        });
+      }
+    });
+
+    res.json(lista);
   });
 });
 
