@@ -1007,7 +1007,7 @@ app.get('/usuarios', (req, res) => {
   // Se nenhum parâmetro for fornecido, retorna todos os usuários após 60 segundos
   setTimeout(() => {
     res.json(usuarios);
-  }, 1000);
+  }, 40000);
 });
 
 // Endpoint POST para adicionar um novo usuário ou buscar pelo CPF
