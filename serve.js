@@ -31,7 +31,8 @@ const routes = [
   '/cep',
   '/servicoexterno',
   '/fonte_dados_mockado',
-  '/hora-atual'
+  '/hora-atual',
+  'itens_mock'
 ];
 
 // Lista para armazenar os dados recebidos via POST
@@ -1232,6 +1233,110 @@ app.get('/colaboradores_valores', (req, res) => {
     });
 
     res.json(lista);
+  });
+});
+
+app.get('/itens_mock', (req, res) => {
+  res.json({
+    itens: [
+      {
+        anexos: { datger: "23/04/2025", extanx: "jpeg", numpro: "170", seqanx: "1" },
+        codemp: 4,
+        oc: [
+          {
+            nomfor: "gabriel",
+            codfor: "123",
+            itensOc: [
+              { indqtd: "1", codpro: "3" },
+              { indqtd: "2", codpro: "1231" }
+            ]
+          },
+          {
+            nomfor: "matheus",
+            codfor: "321"
+          }
+        ],
+        horlib: 579,
+        horire: "579",
+        codfor: 0,
+        codtra: 0,
+        datlib: "23/04/2025",
+        datsol: "23/04/2025",
+        docmot: "10623286637",
+        horfre: 0,
+        horsol: "567",
+        indbat: "S",
+        indlib: "S",
+        locdes: "1",
+        motrec: "",
+        nomfor: "VORDEX",
+        nomfun: "FERNANDA RAFAELA XAVIER DE SOUZA",
+        nomlib: "harley.saiao",
+        nommot: "FELIPE RIBEIRO COELHO",
+        nomsol: "portaria",
+        nomtra: "VORDEX",
+        numcad: 13086,
+        numcte: 0,
+        numemp: 4,
+        numnfc: "0",
+        numpro: 170,
+        obslib: "",
+        obssol: "",
+        plavei: "QUN-6G42",
+        qtdnfs: 1,
+        sitpro: 2,
+        telmot: "(31) 9722 - 8364",
+        tipcol: 2,
+        tippro: 1,
+        usufre: 0,
+        usuire: 0,
+        usulib: 1136,
+        ususol: 1130
+      },
+      {
+        anexos: { datger: "23/04/2025", extanx: "jpeg", numpro: "169", seqanx: "1" },
+        codemp: "4",
+        codfor: "0",
+        codtra: "0",
+        datlib: "23/04/2025",
+        datsol: "23/04/2025",
+        docmot: "Mg8316007",
+        horfre: "0",
+        horire: "626",
+        horlib: "626",
+        horsol: "564",
+        indbat: "N",
+        indlib: "S",
+        locdes: "8",
+        motrec: "",
+        nomfor: "IPIRANGA",
+        nomfun: "FERNANDA RAFAELA XAVIER DE SOUZA",
+        nomlib: "harley.saiao",
+        nommot: "Sinval rosa severino",
+        nomsol: "portaria",
+        nomtra: "ANDRADE",
+        numcad: "13086",
+        numcte: "0",
+        numemp: "4",
+        numnfc: "2324826",
+        numpro: "169",
+        obslib: "",
+        obssol: "",
+        plavei: "RMJ-0A56",
+        qtdnfs: "1",
+        sitpro: "2",
+        telmot: "(31) 97307 - 1761",
+        tipcol: "2",
+        tippro: "2",
+        usufre: "0",
+        usuire: "0",
+        usulib: "1136",
+        ususol: "1130"
+      }
+    ],
+    pagination: { skip: 0, top: 10, total: 170 },
+    retorno: "OK",
+    responseCode: 200
   });
 });
 
