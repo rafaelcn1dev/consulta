@@ -34,7 +34,8 @@ const routes = [
   '/hora-atual',
   'itens_mock',
   'consultaencadenada1',
-  'consultaencadenada2'
+  'consultaencadenada2',
+  'consultaencadenada3'
 ];
 
 // Lista para armazenar os dados recebidos via POST
@@ -1426,6 +1427,48 @@ app.get('/consultaencadenada2', (req, res) => {
 
   // Se nenhum parâmetro for fornecido, retorna todos os nomes
   res.json(nomesMatriculas);
+});
+
+// Lista de cargos associados aos nomes da lista nomesMatriculas
+let cargosNomes = [
+  {
+    cargo: "desenvolvedor",
+    nome: "José da Silva"
+  },
+  {
+    cargo: "analista",
+    nome: "Maria Oliveira"
+  },
+  {
+    cargo: "gerente",
+    nome: "Carlos Santos"
+  },
+  {
+    cargo: "coordenador",
+    nome: "Ana Costa"
+  },
+  {
+    cargo: "desenvolvedor",
+    nome: "Paulo Souza"
+  }
+];
+
+// Endpoint GET para retornar todos os cargos e nomes ou filtrar pelo nome
+app.get('/consultaencadenada3', (req, res) => {
+  const { nome } = req.query;
+
+  // Se o nome for fornecido, filtra pelo nome
+  if (nome) {
+    const item = cargosNomes.find(n => n.nome === nome);
+    if (item) {
+      return res.json(item);
+    } else {
+      return res.status(404).json({ error: "Cargo não encontrado para o nome informado." });
+    }
+  }
+
+  // Se nenhum parâmetro for fornecido, retorna todos os cargos e nomes
+  res.json(cargosNomes);
 });
 
 app.listen(port, () => {
