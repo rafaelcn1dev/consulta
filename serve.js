@@ -1363,6 +1363,16 @@ let matriculas = [
 app.get('/consultaencadenada1', (req, res) => {
   const { cpf, matricula } = req.query;
 
+  // Se ambos forem fornecidos, valida se existem juntos
+  if (cpf && matricula) {
+    const item = matriculas.find(m => m.cpf === cpf && m.matricula.toString() === matricula.toString());
+    if (item) {
+      return res.json(item);
+    } else {
+      return res.status(404).json({ error: "Matrícula não encontrada para o CPF informado." });
+    }
+  }
+
   // Se o CPF for fornecido, filtra as matrículas pelo CPF
   if (cpf) {
     const item = matriculas.find(m => m.cpf === cpf);
