@@ -32,7 +32,8 @@ const routes = [
   '/servicoexterno',
   '/fonte_dados_mockado',
   '/hora-atual',
-  'itens_mock'
+  'itens_mock',
+  'consultaencadenada1'
 ];
 
 // Lista para armazenar os dados recebidos via POST
@@ -1330,6 +1331,58 @@ app.get('/itens_mock', (req, res) => {
     retorno: "OK",
     responseCode: 200
   });
+});
+
+// Lista para armazenar as matrículas e cpfs
+let matriculas = [
+  {
+    matricula: 123,
+    cpf: "123456789-00"
+  },
+  {
+    matricula: 456,
+    cpf: "987654321-11"
+  },
+  {
+    matricula: 789,
+    cpf: "456123789-22"
+  },
+  {
+    matricula: 234,
+    cpf: "321654987-33"
+  },
+  {
+    matricula: 567,
+    cpf: "654987321-44"
+  }
+];
+
+// Endpoint GET para retornar todas as matrículas ou filtrar pelo CPF
+app.get('/consultaencadenada1', (req, res) => {
+  const { cpf, matricula } = req.query;
+
+  // Se o CPF for fornecido, filtra as matrículas pelo CPF
+  if (cpf) {
+    const item = matriculas.find(m => m.cpf === cpf);
+    if (item) {
+      return res.json(item);
+    } else {
+      return res.status(404).json({ error: "Matrícula não encontrada para o CPF informado." });
+    }
+  }
+
+  // Se a matrícula for fornecida, filtra pelo número da matrícula
+  if (matricula) {
+    const item = matriculas.find(m => m.matricula.toString() === matricula.toString());
+    if (item) {
+      return res.json(item);
+    } else {
+      return res.status(404).json({ error: "CPF não encontrado para a matrícula informada." });
+    }
+  }
+
+  // Se nenhum parâmetro for fornecido, retorna todas as matrículas
+  res.json(matriculas);
 });
 
 app.listen(port, () => {
