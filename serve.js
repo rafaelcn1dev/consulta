@@ -33,7 +33,8 @@ const routes = [
   '/fonte_dados_mockado',
   '/hora-atual',
   'itens_mock',
-  'consultaencadenada1'
+  'consultaencadenada1',
+  'consultaencadenada2'
 ];
 
 // Lista para armazenar os dados recebidos via POST
@@ -1383,6 +1384,48 @@ app.get('/consultaencadenada1', (req, res) => {
 
   // Se nenhum parâmetro for fornecido, retorna todas as matrículas
   res.json(matriculas);
+});
+
+// Lista para armazenar os nomes associados aos cpfs das matrículas
+let nomesMatriculas = [
+  {
+    cpf: "123456789-00",
+    nome: "José da Silva"
+  },
+  {
+    cpf: "987654321-11",
+    nome: "Maria Oliveira"
+  },
+  {
+    cpf: "456123789-22",
+    nome: "Carlos Santos"
+  },
+  {
+    cpf: "321654987-33",
+    nome: "Ana Costa"
+  },
+  {
+    cpf: "654987321-44",
+    nome: "Paulo Souza"
+  }
+];
+
+// Endpoint GET para retornar todos os nomes ou filtrar pelo CPF
+app.get('/consultaencadenada2', (req, res) => {
+  const { cpf } = req.query;
+
+  // Se o CPF for fornecido, filtra os nomes pelo CPF
+  if (cpf) {
+    const item = nomesMatriculas.find(n => n.cpf === cpf);
+    if (item) {
+      return res.json(item);
+    } else {
+      return res.status(404).json({ error: "Nome não encontrado para o CPF informado." });
+    }
+  }
+
+  // Se nenhum parâmetro for fornecido, retorna todos os nomes
+  res.json(nomesMatriculas);
 });
 
 app.listen(port, () => {
