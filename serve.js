@@ -1428,7 +1428,7 @@ app.get('/consultaencadenada2', (req, res) => {
   // Se ambos forem fornecidos, valida se existem juntos
   if (cpf && nome) {
     const item = nomesMatriculas.find(n => n.cpf === cpf && n.nome === nome);
-    if (item) {
+    if (item && Object.keys(item).length > 0) {
       return res.json(item);
     } else {
       return res.status(404).json({ error: "Nome não encontrado para o CPF informado." });
@@ -1438,7 +1438,7 @@ app.get('/consultaencadenada2', (req, res) => {
   // Se o CPF for fornecido, filtra os nomes pelo CPF
   if (cpf) {
     const item = nomesMatriculas.find(n => n.cpf === cpf);
-    if (item) {
+    if (item && Object.keys(item).length > 0) {
       return res.json(item);
     } else {
       return res.status(404).json({ error: "Nome não encontrado para o CPF informado." });
@@ -1448,7 +1448,7 @@ app.get('/consultaencadenada2', (req, res) => {
   // Se o nome for fornecido, filtra pelo nome
   if (nome) {
     const item = nomesMatriculas.find(n => n.nome === nome);
-    if (item) {
+    if (item && Object.keys(item).length > 0) {
       return res.json(item);
     } else {
       return res.status(404).json({ error: "CPF não encontrado para o nome informado." });
