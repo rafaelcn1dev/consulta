@@ -986,13 +986,7 @@ app.get('/usuarios', (req, res) => {
     const usuario = usuarios.find(user => user.cpf === cpf);
     if (usuario) {
       console.log(`Usuário encontrado: ${JSON.stringify(usuario)}`);
-      if (usuario.cpf === '98765432100') {
-        return setTimeout(() => {
-          res.json([usuario]);
-        }, 1000); // 60 segundos de delay
-      } else {
-        return res.json(usuario); // Resposta imediata para outros CPFs
-      }
+      return res.json(usuario); // Resposta imediata para outros CPFs
     } else {
       return res.status(404).json({ error: "Usuário não encontrado para o CPF informado." });
     }
@@ -1006,9 +1000,7 @@ app.get('/usuarios', (req, res) => {
   }
 
   // Se nenhum parâmetro for fornecido, retorna todos os usuários após 60 segundos
-  setTimeout(() => {
-    res.json(usuarios);
-  }, 40000);
+  res.json(usuarios);
 });
 
 // Endpoint POST para adicionar um novo usuário ou buscar pelo CPF
