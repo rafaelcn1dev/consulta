@@ -1431,7 +1431,7 @@ app.get('/consultaencadenada2', (req, res) => {
     if (item && Object.keys(item).length > 0) {
       return res.json(item);
     } else {
-      return res.status(404).json({ error: "Nome não encontrado para o CPF informado." });
+      return res.status(404).send("Nome não encontrado para o CPF informado.");
     }
   }
 
