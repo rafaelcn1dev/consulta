@@ -1423,7 +1423,17 @@ let nomesMatriculas = [
 
 // Endpoint GET para retornar todos os nomes ou filtrar pelo CPF
 app.get('/consultaencadenada2', (req, res) => {
-  const { cpf } = req.query;
+  const { cpf, nome } = req.query;
+
+  // Se ambos forem fornecidos, valida se existem juntos
+  if (cpf && nome) {
+    const item = nomesMatriculas.find(n => n.cpf === cpf && n.nome === nome);
+    if (item) {
+      return res.json(item);
+    } else {
+      return res.status(404).json({ error: "Nome não encontrado para o CPF informado." });
+    }
+  }
 
   // Se o CPF for fornecido, filtra os nomes pelo CPF
   if (cpf) {
@@ -1432,6 +1442,16 @@ app.get('/consultaencadenada2', (req, res) => {
       return res.json(item);
     } else {
       return res.status(404).json({ error: "Nome não encontrado para o CPF informado." });
+    }
+  }
+
+  // Se o nome for fornecido, filtra pelo nome
+  if (nome) {
+    const item = nomesMatriculas.find(n => n.nome === nome);
+    if (item) {
+      return res.json(item);
+    } else {
+      return res.status(404).json({ error: "CPF não encontrado para o nome informado." });
     }
   }
 
@@ -1465,7 +1485,17 @@ let cargosNomes = [
 
 // Endpoint GET para retornar todos os cargos e nomes ou filtrar pelo nome
 app.get('/consultaencadenada3', (req, res) => {
-  const { nome } = req.query;
+  const { nome, cargo } = req.query;
+
+  // Se ambos forem fornecidos, valida se existem juntos
+  if (nome && cargo) {
+    const item = cargosNomes.find(n => n.nome === nome && n.cargo === cargo);
+    if (item) {
+      return res.json(item);
+    } else {
+      return res.status(404).json({ error: "Cargo não encontrado para o nome informado." });
+    }
+  }
 
   // Se o nome for fornecido, filtra pelo nome
   if (nome) {
@@ -1474,6 +1504,16 @@ app.get('/consultaencadenada3', (req, res) => {
       return res.json(item);
     } else {
       return res.status(404).json({ error: "Cargo não encontrado para o nome informado." });
+    }
+  }
+
+  // Se o cargo for fornecido, filtra pelo cargo
+  if (cargo) {
+    const item = cargosNomes.find(n => n.cargo === cargo);
+    if (item) {
+      return res.json(item);
+    } else {
+      return res.status(404).json({ error: "Nome não encontrado para o cargo informado." });
     }
   }
 
