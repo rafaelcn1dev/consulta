@@ -1403,10 +1403,10 @@ let nomesMatriculas = [
     cpf: "123456789-00",
     nome: "José da Silva"
   },
-  {
+  /*{
     cpf: "987654321-11",
     nome: "Maria Oliveira"
-  },
+  },*/
   {
     cpf: "456123789-22",
     nome: "Carlos Santos"
