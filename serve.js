@@ -35,7 +35,8 @@ const routes = [
   'itens_mock',
   'consultaencadenada1',
   'consultaencadenada2',
-  'consultaencadenada3'
+  'consultaencadenada3',
+  'agendas'
 ];
 
 // Lista para armazenar os dados recebidos via POST
@@ -1519,6 +1520,48 @@ app.get('/consultaencadenada3', (req, res) => {
 
   // Se nenhum parâmetro for fornecido, retorna todos os cargos e nomes
   res.json(cargosNomes);
+});
+
+app.get('/agendas', (req, res) => {
+  res.json({
+    agendas: [
+      {
+        data: "2025-07-23",
+        horaInicial: "09:00",
+        horaFinal: "10:00",
+        descricaoWebinar: "Webinar sobre Node.js",
+        codigoTipoWebinar: "001"
+      },
+      {
+        data: "2025-07-24",
+        horaInicial: "11:00",
+        horaFinal: "12:00",
+        descricaoWebinar: "Webinar sobre Express",
+        codigoTipoWebinar: "002"
+      },
+      {
+        data: "2025-07-25",
+        horaInicial: "14:00",
+        horaFinal: "15:00",
+        descricaoWebinar: "Webinar sobre APIs REST",
+        codigoTipoWebinar: "003"
+      },
+      {
+        data: "2025-07-26",
+        horaInicial: "16:00",
+        horaFinal: "17:00",
+        descricaoWebinar: "Webinar sobre JavaScript Moderno",
+        codigoTipoWebinar: "004"
+      },
+      {
+        data: "2025-07-27",
+        horaInicial: "18:00",
+        horaFinal: "19:00",
+        descricaoWebinar: "Webinar sobre Segurança em APIs",
+        codigoTipoWebinar: "005"
+      }
+    ]
+  });
 });
 
 app.listen(port, () => {
