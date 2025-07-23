@@ -36,7 +36,8 @@ const routes = [
   'consultaencadenada1',
   'consultaencadenada2',
   'consultaencadenada3',
-  'agendas'
+  'agendas',
+  'AGTN_WebinarManter'
 ];
 
 // Lista para armazenar os dados recebidos via POST
@@ -1561,6 +1562,36 @@ app.get('/agendas', (req, res) => {
         codigoTipoWebinar: "005"
       }
     ]
+  });
+});
+
+app.get('/AGTN_WebinarManter', (req, res) => {
+  const {
+    opcao,
+    data,
+    horaInicial,
+    codigoTipoWebinar,
+    direcionamento,
+    loginExecutivo,
+    mailExecutivo,
+    sequencia,
+    numeroOportunidade,
+    situacaoParticipacao
+  } = req.query;
+
+  // Aqui você pode montar a lógica de negócio conforme necessário.
+  // Para exemplo, vamos retornar os dados recebidos em um resumo.
+
+  const resumoAgenda = `Webinar ${codigoTipoWebinar || ''} em ${data || ''} às ${horaInicial || ''} para ${loginExecutivo || ''}`;
+  const linkAgenda = `https://webinar.exemplo.com/${codigoTipoWebinar || '000'}`;
+  const retorno = "Operação realizada com sucesso";
+  const numeroSolicitacoes = Math.floor(Math.random() * 10) + 1; // valor aleatório para exemplo
+
+  res.json({
+    resumoAgenda,
+    linkAgenda,
+    retorno,
+    numeroSolicitacoes
   });
 });
 
