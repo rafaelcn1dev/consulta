@@ -1584,7 +1584,7 @@ app.get('/AGTN_WebinarManter', (req, res) => {
 
   const resumoAgenda = `Webinar ${codigoTipoWebinar || ''} em ${data || ''} às ${horaInicial || ''} para ${loginExecutivo || ''}`;
   const linkAgenda = `https://webinar.exemplo.com/${codigoTipoWebinar || '000'}`;
-  const retorno = "Operação realizada com sucesso";
+  const retorno = "OK";
   const numeroSolicitacoes = Math.floor(Math.random() * 10) + 1; // valor aleatório para exemplo
 
   res.json({
